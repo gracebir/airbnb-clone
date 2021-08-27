@@ -3,8 +3,9 @@ import Footer from '../components/Footer';
 import { useRouter } from "next/dist/client/router";
 import { format } from 'date-fns';
 import InfoCard from "../components/InfoCard";
+import Map from "../components/Map";
 
-function Search({searchReslts}) {
+function Search({searchResults}) {
     const router = useRouter();
 
     const { location, endDate, numberGuests, startDate} = router.query;
@@ -27,7 +28,7 @@ function Search({searchReslts}) {
                         <p className="button">More filters</p>
                     </div>
                     <div className="flex flex-col">
-                        {searchReslts?.map((result,i)=>(
+                        {searchResults?.map((result,i)=>(
                             <InfoCard
                             key={i}
                             title={result.title}
@@ -42,6 +43,9 @@ function Search({searchReslts}) {
                     </div>
                     
                 </section>
+                <section className="hidden xl:inline-flex xl:min-w-[600px] mb-4">
+                    <Map searchResults={searchResults}/>
+                </section>
             </main>
             <Footer/>
         </div>
@@ -51,11 +55,11 @@ function Search({searchReslts}) {
 export default Search;
 
 export async function getServerSideProps(){
-    const searchReslts = await fetch("https://links.papareact.com/isz")
+    const searchResults = await fetch("https://links.papareact.com/isz")
     .then((res) => res.json());
     return {
         props:{
-            searchReslts
+            searchResults
         }
     }
 }
